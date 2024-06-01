@@ -54,16 +54,18 @@ export default function Navbar({}: Props) {
 
   return (
     <>
-      <nav className={`flex w-full justify-center`}>
+      <nav className={`flex flex-row w-full justify-center`}>
         <div className="flex w-full justify-center">
-          <div
-            className={`flex flex-row min-w-48 justify-between items-center  ${
-              pathname === "/" ? "hidden" : ""
-            }`}
-          >
-            <Button onClick={handleButtonBack}>{"<"}</Button>
-            <Label>{pageName}</Label>
-            <Button onClick={handleButtonForward}>{">"}</Button>
+          <div className="flex w-full justify-center">
+            <div
+              className={`flex flex-row min-w-48 justify-between items-center  ${
+                pathname === "/" ? "hidden" : ""
+              }`}
+            >
+              <Button onClick={handleButtonBack}>{"<"}</Button>
+              <Label>{pageName}</Label>
+              <Button onClick={handleButtonForward}>{">"}</Button>
+            </div>
           </div>
         </div>
         <LoginButton />
