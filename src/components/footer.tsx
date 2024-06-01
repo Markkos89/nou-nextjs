@@ -2,7 +2,7 @@ import React from "react";
 
 function Footer() {
   return (
-    <footer className="flex flex-col w-full h-11 text-white justify-center gap-2 p-4">
+    <footer className="flex fixed bottom-0 flex-col w-full h-11 text-black justify-center gap-2 p-4 border">
       <a
         href="/"
         target="_blank"
