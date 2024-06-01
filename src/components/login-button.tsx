@@ -34,7 +34,6 @@ export function LoginButton() {
         },
       }}
       onConnect={async (wallet) => {
-        console.log({ wallet });
         const _hasNOU = await hasAccess(wallet.getAccount()?.address as string);
         if (_hasNOU) {
           router.push("/bedroom");

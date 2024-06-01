@@ -4,10 +4,9 @@ import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { usePathname, useRouter } from "next/navigation";
 import { LoginButton } from "./login-button";
+import { PakiBalance } from "./paki-balance";
 
-type Props = {};
-
-export default function Navbar({}: Props) {
+export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -68,6 +67,7 @@ export default function Navbar({}: Props) {
             </div>
           </div>
         </div>
+        <PakiBalance />
         <LoginButton />
       </nav>
     </>

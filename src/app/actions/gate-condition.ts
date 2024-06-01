@@ -27,8 +27,6 @@ async function hasAtLeastOneNouNFTClaimed(address: string) {
     owner: address,
   });
 
-  console.log({ ownedBalance });
-
   return ownedBalance >= requiredQuantity;
 }
 
