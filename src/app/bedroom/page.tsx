@@ -15,10 +15,17 @@ export default function BedroomPage() {
             width={150}
             height={300}
             alt="Nou armario"
+            className="w-36 h-auto"
           />
-          <Image src={"/noucama.png"} width={300} height={150} alt="Nou cama" />
+          <Image
+            src={"/noucama.png"}
+            width={100}
+            height={70}
+            alt="Nou cama"
+            className="w-52 h-36 mt-24 sm:w-80 sm:h-40"
+          />
         </div>
-        <div className="flex flex-row w-full justify-center">
+        <div className="mt-20 sm:mt-6 flex flex-row w-full justify-center">
           <Image
             src={`/${lightsOn ? "skinbase" : "nou_dormido"}.png`}
             width={200}

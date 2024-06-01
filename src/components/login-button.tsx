@@ -1,4 +1,9 @@
+"use client";
+
+import { hasAccess } from "@/app/actions/gate-condition";
 import { client } from "@/clients/thirdweb";
+import { useRouter } from "next/navigation";
+import { baseSepolia } from "thirdweb/chains";
 import { ConnectButton } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 
@@ -13,11 +18,14 @@ const wallets = [
 ];
 
 export function LoginButton() {
+  const router = useRouter();
   return (
     <ConnectButton
+      autoConnect={true}
+      chain={baseSepolia}
       client={client}
       wallets={wallets}
-      theme={"light"}
+      theme={"dark"}
       connectModal={{
         size: "compact",
         welcomeScreen: {
@@ -25,6 +33,16 @@ export function LoginButton() {
           subtitle: "NOUxBASE",
         },
       }}
+      onConnect={async (wallet) => {
+        console.log({ wallet });
+        const _hasNOU = await hasAccess(wallet.getAccount()?.address as string);
+        if (_hasNOU) {
+          router.push("/bedroom");
+        } else {
+          router.push("/");
+        }
+      }}
+      onDisconnect={() => router.push("/")}
     />
   );
 }

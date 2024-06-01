@@ -18,6 +18,7 @@ import {
 import { client } from "@/clients/thirdweb";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
 
 export default function HomePage() {
   const account = useActiveAccount();
@@ -56,9 +57,14 @@ export default function HomePage() {
   const { toast } = useToast();
 
   return (
-    <main className="p-4  min-h-[100vh] flex items-center justify-center container max-w-screen-lg mx-auto">
-      <div className="py-20 text-center">
-        <div className="flex flex-col items-center mt-4">
+    <div className="flex mt-10 items-center justify-center max-w-screen-lg mx-auto">
+      <div className="text-center">
+        <Label className="text-5xl">NOU x BASE</Label>
+        <br />
+        <Label className="text-lg">
+          Mint your NOU for free and start playing :)
+        </Label>
+        <div className="flex flex-col items-center ">
           {isContractMetadataLaoding ? (
             <p>Loading...</p>
           ) : (
@@ -100,10 +106,10 @@ export default function HomePage() {
               router.push("/bedroom");
             }}
           >
-            {`Claim NFT (${getPrice(1)} ETH)`}
+            {`Claim NFT FOR FREE`}
           </TransactionButton>
         </div>
       </div>
-    </main>
+    </div>
   );
 }

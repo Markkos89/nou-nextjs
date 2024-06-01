@@ -31,8 +31,10 @@ export default function RootLayout({
         )}
       >
         <ThirdwebProvider>
-          <Navbar />
-          <main className="flex h-full border">{children}</main>
+          <main className="flex flex-col h-full border">
+            <Navbar />
+            {children}
+          </main>
           <Toaster />
           <Footer />
         </ThirdwebProvider>
