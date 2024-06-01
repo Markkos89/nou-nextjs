@@ -26,12 +26,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen max-h-screen h-screen bg-background font-sans antialiased",
+          "min-h-screen max-h-screen h-screen w-full font-sans antialiased",
           fontSans.variable
         )}
       >
         <ThirdwebProvider>
-          <main className="flex flex-col h-full border">
+          <main className="flex flex-col h-full w-full">
             <Navbar />
             {children}
           </main>
