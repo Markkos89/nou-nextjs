@@ -3,6 +3,7 @@
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { usePathname, useRouter } from "next/navigation";
+import { LoginButton } from "./login-button";
 
 type Props = {};
 
@@ -52,16 +53,21 @@ export default function Navbar({}: Props) {
   };
 
   return (
-    <nav
-      className={`flex w-full justify-center p-2 ${
-        pathname === "/" ? "hidden" : ""
-      }`}
-    >
-      <div className="flex flex-row min-w-48 justify-between items-center">
-        <Button onClick={handleButtonBack}>{"<"}</Button>
-        <Label>{pageName}</Label>
-        <Button onClick={handleButtonForward}>{">"}</Button>
-      </div>
-    </nav>
+    <>
+      <nav className={`flex w-full justify-center`}>
+        <div className="flex w-full justify-center">
+          <div
+            className={`flex flex-row min-w-48 justify-between items-center  ${
+              pathname === "/" ? "hidden" : ""
+            }`}
+          >
+            <Button onClick={handleButtonBack}>{"<"}</Button>
+            <Label>{pageName}</Label>
+            <Button onClick={handleButtonForward}>{">"}</Button>
+          </div>
+        </div>
+        <LoginButton />
+      </nav>
+    </>
   );
 }
