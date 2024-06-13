@@ -2,37 +2,81 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { Label } from "@radix-ui/react-label";
+import { Label } from "@/components/ui/label";
+import { useToast } from "@/components/ui/use-toast";
+import {
+  useAddress,
+  useClaimToken,
+  useContract,
+  Web3Button,
+} from "@thirdweb-dev/react";
 
 export default function GamesPage() {
-  const router = useRouter();
   const [juegoIniciado, setJuegoIniciado] = useState(false);
-  const [topRandom, setTopRandom] = useState(250);
-  const [leftRandom, setLeftRandom] = useState(150);
-
+  const [topRandom, setTopRandom] = useState(180);
+  const [leftRandom, setLeftRandom] = useState(420);
   const [gameScore, setGameScore] = useState(0);
+  const [finalScoreToClaim, setFinalScoreToClaim] = useState(0);
 
-  const handleInitGame = useCallback(() => {
-    setJuegoIniciado(true);
-    const interval = setInterval(() => {
-      const randomTop = Math.floor(Math.random() * (482 - 127 + 1)) + 127;
-      setTopRandom(randomTop);
-      const randomLeft = Math.floor(Math.random() * (950 - 265 + 1)) + 265;
-      setLeftRandom(randomLeft);
-    }, 600);
-    () => clearInterval(interval);
-  }, []);
+  const { toast } = useToast();
+
+  const address = useAddress();
+
+  const handleGamePlay = () => {
+    if (!juegoIniciado) {
+      setJuegoIniciado(true);
+      const interval = setInterval(() => {
+        const randomTop = Math.floor(Math.random() * (482 - 127 + 1)) + 127;
+        setTopRandom(randomTop);
+        const randomLeft = Math.floor(Math.random() * (850 - 265 + 1)) + 265;
+        setLeftRandom(randomLeft);
+      }, 800);
+      () => clearInterval(interval);
+    } else {
+      setFinalScoreToClaim(gameScore);
+      setJuegoIniciado(false);
+      toast({
+        title: "You have finished the game",
+        description: `You have ${gameScore} $PAKIs to claim`,
+      });
+    }
+  };
 
   const handleScoreClick = () => {
     setGameScore((prev) => prev + 20);
   };
 
+  const { contract } = useContract(
+    process.env.NEXT_PUBLIC_PAKI_TOKEN_BASE_SEPOLIA_CONTRACT_ADDRESS as string
+  );
+
+  const { mutateAsync: claimToken, isLoading, error } = useClaimToken(contract);
+
+  console.log({ isLoading, error });
+
   return (
     <div className="flex flex-col h-full w-full  justify-center bg-gradient-to-r from-blue-300 to-blue-700">
       <div className="flex w-full justify-center mt-4">
-        <Button onClick={() => router.back()}>Volver</Button>
+        {!juegoIniciado ? (
+          <Button
+            variant={"secondary"}
+            size={"lg"}
+            onClick={handleGamePlay}
+            className="text-3xl"
+          >
+            Iniciar
+          </Button>
+        ) : (
+          <Button
+            variant={"secondary"}
+            onClick={handleGamePlay}
+            disabled={!juegoIniciado}
+          >
+            Finish game
+          </Button>
+        )}
       </div>
       <div className="flex w-full justify-center mt-4">
         <Label>Score: {gameScore}</Label>
@@ -43,15 +87,20 @@ export default function GamesPage() {
             !juegoIniciado ? " justify-center items-center " : ""
           } rounded-3xl`}
         >
-          {!juegoIniciado ? (
-            <Button
-              variant={"secondary"}
-              size={"lg"}
-              onClick={handleInitGame}
-              className="bg-blue-400 text-3xl"
-            >
-              Iniciar
-            </Button>
+          {address && !juegoIniciado && finalScoreToClaim !== 0 ? (
+            <div className="flex flex-row w-full">
+              <Label>Rewards to claim</Label>
+              <span>{finalScoreToClaim}</span>
+              <Web3Button
+                contractAddress={
+                  process.env
+                    .NEXT_PUBLIC_PAKI_TOKEN_BASE_SEPOLIA_CONTRACT_ADDRESS as string
+                }
+                action={(contract) => contract.erc20.claim(finalScoreToClaim)}
+              >
+                {`Claim ${finalScoreToClaim} $PAKI Tokens`}
+              </Web3Button>
+            </div>
           ) : (
             <Image
               src={"/skinjuego.png"}
@@ -62,7 +111,7 @@ export default function GamesPage() {
                 top: topRandom,
                 left: leftRandom,
               }}
-              className={`absolute cursor-pointer hover:w-14 hover:h-14`}
+              className={`absolute block cursor-pointer hover:w-14 hover:h-14`}
               onClick={handleScoreClick}
             />
           )}

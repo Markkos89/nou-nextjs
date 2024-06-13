@@ -4,8 +4,8 @@ import "./globals.css";
 import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { cn } from "@/lib/utils";
-import { ThirdwebProvider } from "thirdweb/react";
 import { Toaster } from "@/components/ui/toaster";
+import { AppWithProviders } from "@/components/providers";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -30,14 +30,14 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThirdwebProvider>
+        <AppWithProviders>
           <main className="flex flex-col h-full w-full">
             <Navbar />
             {children}
           </main>
           <Toaster />
           <Footer />
-        </ThirdwebProvider>
+        </AppWithProviders>
       </body>
     </html>
   );

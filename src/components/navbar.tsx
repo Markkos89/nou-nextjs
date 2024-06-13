@@ -3,7 +3,7 @@
 import { Button } from "./ui/button";
 import { Label } from "./ui/label";
 import { usePathname, useRouter } from "next/navigation";
-import { LoginButton } from "./login-button";
+import { ConnectWallet } from "@thirdweb-dev/react";
 
 type Props = {};
 
@@ -58,7 +58,7 @@ export default function Navbar({}: Props) {
         <div className="flex w-full justify-center">
           <div className="flex w-full justify-center">
             <div
-              className={`flex flex-row min-w-48 justify-between items-center  ${
+              className={`flex flex-row min-w-48 gap-4 justify-between items-center  ${
                 pathname === "/" ? "hidden" : ""
               }`}
             >
@@ -68,7 +68,7 @@ export default function Navbar({}: Props) {
             </div>
           </div>
         </div>
-        <LoginButton />
+        <ConnectWallet switchToActiveChain={true} />
       </nav>
     </>
   );
